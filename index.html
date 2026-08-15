@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Un pequeño juego ❤️</title>
 
 <style>
@@ -50,7 +51,8 @@
         margin-bottom: 18px;
     }
 
-    input, select {
+    input,
+    select {
         box-sizing: border-box;
         padding: 13px;
         font-size: 17px;
@@ -62,7 +64,8 @@
         background: white;
     }
 
-    input:focus, select:focus {
+    input:focus,
+    select:focus {
         border-color: #aaa;
     }
 
@@ -133,7 +136,9 @@
 <body>
 
 <div class="game" id="game">
+
     <div class="heart">❤️</div>
+
     <h1>Un pequeño juego</h1>
 
     <p>
@@ -141,15 +146,27 @@
     </p>
 
     <div id="gameContent"></div>
+
 </div>
+
 
 <script>
 
 /* =========================================================
-   FUNCIONES PARA NORMALIZAR LAS RESPUESTAS
+   NORMALIZAR RESPUESTAS
+   =========================================================
+
+   IMPORTANTE:
+   No modificamos el texto mientras la persona escribe.
+
+   Solamente normalizamos la respuesta cuando pulsa
+   "Responder".
+
+   Así los espacios funcionan normalmente.
    ========================================================= */
 
 function normalize(text) {
+
     return text
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
@@ -158,30 +175,34 @@ function normalize(text) {
         .trim();
 }
 
-function formatInput(input) {
-    input.value = normalize(input.value);
-}
-
 
 /* =========================================================
-   PREGUNTAS
+   VARIABLES
    ========================================================= */
 
 let currentQuestion = 0;
 
 
 /* =========================================================
-   MOSTRAR PREGUNTAS
+   MOSTRAR PREGUNTA
    ========================================================= */
 
 function showQuestion() {
 
     const content = document.getElementById("gameContent");
 
+
+    /* -----------------------------------------------------
+       PREGUNTA 1
+       ----------------------------------------------------- */
+
     if (currentQuestion === 0) {
 
         content.innerHTML = `
-            <div class="progress">Pregunta 1 de 8</div>
+
+            <div class="progress">
+                Pregunta 1 de 8
+            </div>
 
             <div class="question">
                 ¿Qué día comenzó lo nuestro?
@@ -190,6 +211,7 @@ function showQuestion() {
             <div class="date-row">
 
                 <div>
+
                     <input
                         id="day"
                         class="small-input"
@@ -198,29 +220,84 @@ function showQuestion() {
                         max="31"
                         placeholder="Día"
                     >
-                    <div class="date-label">Día</div>
+
+                    <div class="date-label">
+                        Día
+                    </div>
+
                 </div>
 
+
                 <div>
-                    <select id="month" class="small-input">
-                        <option value="">Mes</option>
-                        <option value="1">Enero</option>
-                        <option value="2">Febrero</option>
-                        <option value="3">Marzo</option>
-                        <option value="4">Abril</option>
-                        <option value="5">Mayo</option>
-                        <option value="6">Junio</option>
-                        <option value="7">Julio</option>
-                        <option value="8">Agosto</option>
-                        <option value="9">Septiembre</option>
-                        <option value="10">Octubre</option>
-                        <option value="11">Noviembre</option>
-                        <option value="12">Diciembre</option>
+
+                    <select
+                        id="month"
+                        class="small-input"
+                    >
+
+                        <option value="">
+                            Mes
+                        </option>
+
+                        <option value="1">
+                            Enero
+                        </option>
+
+                        <option value="2">
+                            Febrero
+                        </option>
+
+                        <option value="3">
+                            Marzo
+                        </option>
+
+                        <option value="4">
+                            Abril
+                        </option>
+
+                        <option value="5">
+                            Mayo
+                        </option>
+
+                        <option value="6">
+                            Junio
+                        </option>
+
+                        <option value="7">
+                            Julio
+                        </option>
+
+                        <option value="8">
+                            Agosto
+                        </option>
+
+                        <option value="9">
+                            Septiembre
+                        </option>
+
+                        <option value="10">
+                            Octubre
+                        </option>
+
+                        <option value="11">
+                            Noviembre
+                        </option>
+
+                        <option value="12">
+                            Diciembre
+                        </option>
+
                     </select>
-                    <div class="date-label">Mes</div>
+
+                    <div class="date-label">
+                        Mes
+                    </div>
+
                 </div>
 
+
                 <div>
+
                     <input
                         id="year"
                         class="small-input"
@@ -229,19 +306,35 @@ function showQuestion() {
                         max="2100"
                         placeholder="Año"
                     >
-                    <div class="date-label">Año</div>
+
+                    <div class="date-label">
+                        Año
+                    </div>
+
                 </div>
 
             </div>
 
-            <button onclick="checkDate()">Responder</button>
 
-            <div class="message" id="message"></div>
+            <button onclick="checkDate()">
+                Responder
+            </button>
+
+
+            <div
+                class="message"
+                id="message"
+            ></div>
+
         `;
 
         return;
     }
 
+
+    /* -----------------------------------------------------
+       PREGUNTA 2
+       ----------------------------------------------------- */
 
     if (currentQuestion === 1) {
 
@@ -249,12 +342,16 @@ function showQuestion() {
             "Pregunta 2 de 8",
             "¿De qué color íbamos vestidos en nuestra primera cita?",
             "(1 PALABRA)",
-            "BEIGE"
+            ["BEIGE"]
         );
 
         return;
     }
 
+
+    /* -----------------------------------------------------
+       PREGUNTA 3
+       ----------------------------------------------------- */
 
     if (currentQuestion === 2) {
 
@@ -262,12 +359,16 @@ function showQuestion() {
             "Pregunta 3 de 8",
             "¿Qué comida sabes que no me gusta?",
             "(1 PALABRA)",
-            "PLATANO"
+            ["PLATANO"]
         );
 
         return;
     }
 
+
+    /* -----------------------------------------------------
+       PREGUNTA 4
+       ----------------------------------------------------- */
 
     if (currentQuestion === 3) {
 
@@ -275,17 +376,24 @@ function showQuestion() {
             "Pregunta 4 de 8",
             "Si algún día tuviéramos un hijo, ¿qué nombre hemos elegido para él?",
             "(2 PALABRAS)",
-            "MATIAS SEBASTIAN"
+            ["MATIAS SEBASTIAN"]
         );
 
         return;
     }
 
 
+    /* -----------------------------------------------------
+       PREGUNTA 5
+       ----------------------------------------------------- */
+
     if (currentQuestion === 4) {
 
         content.innerHTML = `
-            <div class="progress">Pregunta 5 de 8</div>
+
+            <div class="progress">
+                Pregunta 5 de 8
+            </div>
 
             <div class="question">
                 Menciona tres flores que te he regalado.
@@ -295,71 +403,75 @@ function showQuestion() {
                 (ESCRIBE UNA FLOR EN CADA CASILLA)
             </div>
 
+
             <input
                 id="flower1"
                 class="flower-input"
                 type="text"
-                oninput="formatInput(this)"
                 placeholder="PRIMERA FLOR"
             >
+
 
             <input
                 id="flower2"
                 class="flower-input"
                 type="text"
-                oninput="formatInput(this)"
                 placeholder="SEGUNDA FLOR"
             >
+
 
             <input
                 id="flower3"
                 class="flower-input"
                 type="text"
-                oninput="formatInput(this)"
                 placeholder="TERCERA FLOR"
             >
 
-            <button onclick="checkFlowers()">Responder</button>
 
-            <div class="message" id="message"></div>
+            <button onclick="checkFlowers()">
+                Responder
+            </button>
+
+
+            <div
+                class="message"
+                id="message"
+            ></div>
+
         `;
 
         return;
     }
 
+
+    /* -----------------------------------------------------
+       PREGUNTA 6
+       ----------------------------------------------------- */
 
     if (currentQuestion === 5) {
 
-        content.innerHTML = `
-            <div class="progress">Pregunta 6 de 8</div>
-
-            <div class="question">
-                ¿Qué parte de mi cuerpo te gusta más?
-            </div>
-
-            <div class="hint">(1 PALABRA)</div>
-
-            <input
-                id="textAnswer"
-                class="text-input"
-                type="text"
-                oninput="formatInput(this)"
-                placeholder="ESCRIBE TU RESPUESTA"
-            >
-
-            <button onclick="checkSimpleAnswer()">Responder</button>
-
-            <div class="message" id="message"></div>
-        `;
+        textQuestion(
+            "Pregunta 6 de 8",
+            "¿Qué parte de mi cuerpo te gusta más?",
+            "(1 PALABRA)",
+            ["BOCA", "LABIOS"]
+        );
 
         return;
     }
 
+
+    /* -----------------------------------------------------
+       PREGUNTA 7
+       ----------------------------------------------------- */
 
     if (currentQuestion === 6) {
 
         content.innerHTML = `
-            <div class="progress">Pregunta 7 de 8</div>
+
+            <div class="progress">
+                Pregunta 7 de 8
+            </div>
 
             <div class="question">
                 Menciona tres formas cariñosas, de una sola palabra,
@@ -370,38 +482,50 @@ function showQuestion() {
                 (ESCRIBE UNA PALABRA EN CADA CASILLA)
             </div>
 
+
             <input
                 id="nickname1"
                 class="nickname-input"
                 type="text"
-                oninput="formatInput(this)"
                 placeholder="PRIMERA PALABRA"
             >
+
 
             <input
                 id="nickname2"
                 class="nickname-input"
                 type="text"
-                oninput="formatInput(this)"
                 placeholder="SEGUNDA PALABRA"
             >
+
 
             <input
                 id="nickname3"
                 class="nickname-input"
                 type="text"
-                oninput="formatInput(this)"
                 placeholder="TERCERA PALABRA"
             >
 
-            <button onclick="checkNicknames()">Responder</button>
 
-            <div class="message" id="message"></div>
+            <button onclick="checkNicknames()">
+                Responder
+            </button>
+
+
+            <div
+                class="message"
+                id="message"
+            ></div>
+
         `;
 
         return;
     }
 
+
+    /* -----------------------------------------------------
+       PREGUNTA 8
+       ----------------------------------------------------- */
 
     if (currentQuestion === 7) {
 
@@ -409,11 +533,12 @@ function showQuestion() {
             "Pregunta 8 de 8",
             "¿Qué frase de un video viral se volvió tan nuestra que solemos decirnos cuando recordamos lo mucho que nos queremos?",
             "(3 PALABRAS)",
-            "OJALA ME TRAICIONES"
+            ["OJALA ME TRAICIONES"]
         );
 
         return;
     }
+
 }
 
 
@@ -421,33 +546,104 @@ function showQuestion() {
    PREGUNTAS DE TEXTO
    ========================================================= */
 
-function textQuestion(progress, question, hint, correctAnswer) {
+function textQuestion(
+    progress,
+    question,
+    hint,
+    validAnswers
+) {
 
-    const content = document.getElementById("gameContent");
+    const content =
+        document.getElementById("gameContent");
+
 
     content.innerHTML = `
-        <div class="progress">${progress}</div>
+
+        <div class="progress">
+            ${progress}
+        </div>
+
 
         <div class="question">
             ${question}
         </div>
 
-        <div class="hint">${hint}</div>
+
+        <div class="hint">
+            ${hint}
+        </div>
+
 
         <input
             id="textAnswer"
             class="text-input"
             type="text"
-            oninput="formatInput(this)"
             placeholder="ESCRIBE TU RESPUESTA"
         >
 
-        <button onclick="checkSimpleAnswer('${correctAnswer}')">
+
+        <button
+            onclick='checkTextAnswer(${JSON.stringify(validAnswers)})'
+        >
             Responder
         </button>
 
-        <div class="message" id="message"></div>
+
+        <div
+            class="message"
+            id="message"
+        ></div>
+
     `;
+}
+
+
+/* =========================================================
+   COMPROBAR RESPUESTA DE TEXTO
+   ========================================================= */
+
+function checkTextAnswer(validAnswers) {
+
+    const input =
+        document.getElementById("textAnswer");
+
+
+    const answer =
+        normalize(input.value);
+
+
+    const normalizedValidAnswers =
+        validAnswers.map(answer => normalize(answer));
+
+
+    const message =
+        document.getElementById("message");
+
+
+    if (
+        normalizedValidAnswers.includes(answer)
+    ) {
+
+        message.textContent =
+            "✅ ¡Correcto!";
+
+
+        setTimeout(() => {
+
+            currentQuestion++;
+
+            showQuestion();
+
+        }, 700);
+
+
+    } else {
+
+        message.textContent =
+            "❌ Incorrecto... inténtalo otra vez 😏";
+
+    }
+
 }
 
 
@@ -457,60 +653,52 @@ function textQuestion(progress, question, hint, correctAnswer) {
 
 function checkDate() {
 
-    const day = document.getElementById("day").value;
-    const month = document.getElementById("month").value;
-    const year = document.getElementById("year").value;
+    const day =
+        document.getElementById("day").value;
 
-    const message = document.getElementById("message");
+
+    const month =
+        document.getElementById("month").value;
+
+
+    const year =
+        document.getElementById("year").value;
+
+
+    const message =
+        document.getElementById("message");
+
 
     if (
+
         Number(day) === 14 &&
+
         Number(month) === 1 &&
+
         Number(year) === 2026
+
     ) {
 
-        message.textContent = "✅ ¡Correcto!";
+        message.textContent =
+            "✅ ¡Correcto!";
+
 
         setTimeout(() => {
+
             currentQuestion++;
+
             showQuestion();
+
         }, 700);
+
 
     } else {
 
         message.textContent =
             "❌ Incorrecto... inténtalo otra vez 😏";
+
     }
-}
 
-
-/* =========================================================
-   PREGUNTAS DE UNA RESPUESTA
-   ========================================================= */
-
-function checkSimpleAnswer(correctAnswer) {
-
-    const input = document.getElementById("textAnswer");
-
-    const answer = normalize(input.value);
-    const correct = normalize(correctAnswer);
-
-    const message = document.getElementById("message");
-
-    if (answer === correct) {
-
-        message.textContent = "✅ ¡Correcto!";
-
-        setTimeout(() => {
-            currentQuestion++;
-            showQuestion();
-        }, 700);
-
-    } else {
-
-        message.textContent =
-            "❌ Incorrecto... inténtalo otra vez 😏";
-    }
 }
 
 
@@ -521,91 +709,103 @@ function checkSimpleAnswer(correctAnswer) {
 function checkFlowers() {
 
     const answers = [
-        normalize(document.getElementById("flower1").value),
-        normalize(document.getElementById("flower2").value),
-        normalize(document.getElementById("flower3").value)
+
+        normalize(
+            document.getElementById("flower1").value
+        ),
+
+        normalize(
+            document.getElementById("flower2").value
+        ),
+
+        normalize(
+            document.getElementById("flower3").value
+        )
+
     ];
 
+
+    /* Ahora hay CINCO flores válidas */
+
     const validFlowers = [
+
         "ROSA",
         "GIRASOL",
         "HIERBERA",
-        "TULIPAN"
+        "TULIPAN",
+        "LIRIO"
+
     ];
 
-    const message = document.getElementById("message");
 
-    const allValid = answers.every(
-        answer => validFlowers.includes(answer)
-    );
+    const message =
+        document.getElementById("message");
+
+
+    const allValid =
+        answers.every(
+            answer =>
+                validFlowers.includes(answer)
+        );
+
 
     const allDifferent =
         new Set(answers).size === 3;
 
-    if (allValid && allDifferent) {
 
-        message.textContent = "✅ ¡Correcto!";
+    if (
+        allValid &&
+        allDifferent
+    ) {
+
+        message.textContent =
+            "✅ ¡Correcto!";
+
 
         setTimeout(() => {
+
             currentQuestion++;
+
             showQuestion();
+
         }, 700);
+
 
     } else {
 
         message.textContent =
             "❌ Incorrecto... inténtalo otra vez 😏";
+
     }
+
 }
 
 
 /* =========================================================
-   PREGUNTA 6 — BOCA / LABIOS
-   ========================================================= */
-
-function checkSimpleAnswerForQuestion6() {
-
-    const input = document.getElementById("textAnswer");
-
-    const answer = normalize(input.value);
-
-    const validAnswers = [
-        "BOCA",
-        "LABIOS"
-    ];
-
-    const message = document.getElementById("message");
-
-    if (validAnswers.includes(answer)) {
-
-        message.textContent = "✅ ¡Correcto!";
-
-        setTimeout(() => {
-            currentQuestion++;
-            showQuestion();
-        }, 700);
-
-    } else {
-
-        message.textContent =
-            "❌ Incorrecto... inténtalo otra vez 😏";
-    }
-}
-
-
-/* =========================================================
-   PREGUNTA 7 — APODOS
+   PREGUNTA 7 — FORMAS CARIÑOSAS
    ========================================================= */
 
 function checkNicknames() {
 
     const answers = [
-        normalize(document.getElementById("nickname1").value),
-        normalize(document.getElementById("nickname2").value),
-        normalize(document.getElementById("nickname3").value)
+
+        normalize(
+            document.getElementById("nickname1").value
+        ),
+
+        normalize(
+            document.getElementById("nickname2").value
+        ),
+
+        normalize(
+            document.getElementById("nickname3").value
+        )
+
     ];
 
+
     const validNicknames = [
+
         "AMOR",
         "CORAZON",
         "BEBE",
@@ -616,190 +816,90 @@ function checkNicknames() {
         "GORDITA",
         "CHAPARRITA",
         "VIDA"
+
     ];
 
-    const message = document.getElementById("message");
 
-    const allValid = answers.every(
-        answer => validNicknames.includes(answer)
-    );
+    const message =
+        document.getElementById("message");
+
+
+    const allValid =
+        answers.every(
+            answer =>
+                validNicknames.includes(answer)
+        );
+
 
     const allDifferent =
         new Set(answers).size === 3;
 
-    if (allValid && allDifferent) {
 
-        message.textContent = "✅ ¡Correcto!";
+    if (
+        allValid &&
+        allDifferent
+    ) {
+
+        message.textContent =
+            "✅ ¡Correcto!";
+
 
         setTimeout(() => {
+
             currentQuestion++;
+
             showQuestion();
+
         }, 700);
+
 
     } else {
 
         message.textContent =
             "❌ Incorrecto... inténtalo otra vez 😏";
+
     }
+
 }
 
 
 /* =========================================================
-   CORREGIR PREGUNTA 6
-   ========================================================= */
-
-function checkQuestion6() {
-
-    const input = document.getElementById("textAnswer");
-
-    const answer = normalize(input.value);
-
-    const validAnswers = [
-        "BOCA",
-        "LABIOS"
-    ];
-
-    const message = document.getElementById("message");
-
-    if (validAnswers.includes(answer)) {
-
-        message.textContent = "✅ ¡Correcto!";
-
-        setTimeout(() => {
-            currentQuestion++;
-            showQuestion();
-        }, 700);
-
-    } else {
-
-        message.textContent =
-            "❌ Incorrecto... inténtalo otra vez 😏";
-    }
-}
-
-
-/* =========================================================
-   FINAL
+   MENSAJE FINAL
    ========================================================= */
 
 function showFinal() {
 
     document.getElementById("game").innerHTML = `
-        <div class="heart">❤️</div>
 
-        <h1>¡Lo lograste!</h1>
+        <div class="heart">
+            ❤️
+        </div>
+
+
+        <h1>
+            ¡Lo lograste!
+        </h1>
+
 
         <p class="final">
-            Has respondido correctamente las ocho preguntas.
+
+            Has respondido correctamente
+            las ocho preguntas.
+
             <br><br>
-            🎉 La prueba funciona perfectamente.
-            <br><br>
-            El verdadero mensaje viene ahora...
+
+            Te amo y siempre te voy a amar.
+            Quiero todo contigo.
+
         </p>
+
     `;
+
 }
 
 
 /* =========================================================
-   CONTROL ESPECIAL DE PREGUNTAS
-   ========================================================= */
-
-const originalShowQuestion = showQuestion;
-
-showQuestion = function() {
-
-    if (currentQuestion === 5) {
-
-        const content = document.getElementById("gameContent");
-
-        content.innerHTML = `
-            <div class="progress">Pregunta 6 de 8</div>
-
-            <div class="question">
-                ¿Qué parte de mi cuerpo te gusta más?
-            </div>
-
-            <div class="hint">(1 PALABRA)</div>
-
-            <input
-                id="textAnswer"
-                class="text-input"
-                type="text"
-                oninput="formatInput(this)"
-                placeholder="ESCRIBE TU RESPUESTA"
-            >
-
-            <button onclick="checkQuestion6()">Responder</button>
-
-            <div class="message" id="message"></div>
-        `;
-
-        return;
-    }
-
-    if (currentQuestion === 7) {
-
-        const content = document.getElementById("gameContent");
-
-        content.innerHTML = `
-            <div class="progress">Pregunta 8 de 8</div>
-
-            <div class="question">
-                ¿Qué frase de un video viral se volvió tan nuestra que solemos decirnos cuando recordamos lo mucho que nos queremos?
-            </div>
-
-            <div class="hint">(3 PALABRAS)</div>
-
-            <input
-                id="textAnswer"
-                class="text-input"
-                type="text"
-                oninput="formatInput(this)"
-                placeholder="ESCRIBE TU RESPUESTA"
-            >
-
-            <button onclick="checkQuestion8()">Responder</button>
-
-            <div class="message" id="message"></div>
-        `;
-
-        return;
-    }
-
-    originalShowQuestion();
-};
-
-
-/* =========================================================
-   PREGUNTA 8
-   ========================================================= */
-
-function checkQuestion8() {
-
-    const answer = normalize(
-        document.getElementById("textAnswer").value
-    );
-
-    const message = document.getElementById("message");
-
-    if (answer === "OJALA ME TRAICIONES") {
-
-        message.textContent = "✅ ¡Correcto!";
-
-        setTimeout(() => {
-            showFinal();
-        }, 700);
-
-    } else {
-
-        message.textContent =
-            "❌ Incorrecto... inténtalo otra vez 😏";
-    }
-}
-
-
-/* =========================================================
-   INICIAR
+   INICIAR JUEGO
    ========================================================= */
 
 showQuestion();
