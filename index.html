@@ -128,7 +128,12 @@
 
     .final {
         font-size: 20px;
-        line-height: 1.6;
+        line-height: 1.7;
+    }
+
+    .final-heart {
+        font-size: 42px;
+        margin-bottom: 10px;
     }
 </style>
 </head>
@@ -154,15 +159,6 @@
 
 /* =========================================================
    NORMALIZAR RESPUESTAS
-   =========================================================
-
-   IMPORTANTE:
-   No modificamos el texto mientras la persona escribe.
-
-   Solamente normalizamos la respuesta cuando pulsa
-   "Responder".
-
-   Así los espacios funcionan normalmente.
    ========================================================= */
 
 function normalize(text) {
@@ -173,6 +169,26 @@ function normalize(text) {
         .toUpperCase()
         .replace(/\s+/g, " ")
         .trim();
+
+}
+
+
+/* =========================================================
+   CONVERTIR LO QUE ESCRIBE EN MAYÚSCULAS Y SIN TILDES
+   ========================================================= */
+
+function formatWhileTyping(input) {
+
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+
+    input.value = input.value
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+
+    input.setSelectionRange(start, end);
+
 }
 
 
@@ -189,12 +205,13 @@ let currentQuestion = 0;
 
 function showQuestion() {
 
-    const content = document.getElementById("gameContent");
+    const content =
+        document.getElementById("gameContent");
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        PREGUNTA 1
-       ----------------------------------------------------- */
+       ===================================================== */
 
     if (currentQuestion === 0) {
 
@@ -332,9 +349,9 @@ function showQuestion() {
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        PREGUNTA 2
-       ----------------------------------------------------- */
+       ===================================================== */
 
     if (currentQuestion === 1) {
 
@@ -349,9 +366,9 @@ function showQuestion() {
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        PREGUNTA 3
-       ----------------------------------------------------- */
+       ===================================================== */
 
     if (currentQuestion === 2) {
 
@@ -366,9 +383,9 @@ function showQuestion() {
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        PREGUNTA 4
-       ----------------------------------------------------- */
+       ===================================================== */
 
     if (currentQuestion === 3) {
 
@@ -383,9 +400,9 @@ function showQuestion() {
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        PREGUNTA 5
-       ----------------------------------------------------- */
+       ===================================================== */
 
     if (currentQuestion === 4) {
 
@@ -409,6 +426,7 @@ function showQuestion() {
                 class="flower-input"
                 type="text"
                 placeholder="PRIMERA FLOR"
+                oninput="formatWhileTyping(this)"
             >
 
 
@@ -417,6 +435,7 @@ function showQuestion() {
                 class="flower-input"
                 type="text"
                 placeholder="SEGUNDA FLOR"
+                oninput="formatWhileTyping(this)"
             >
 
 
@@ -425,6 +444,7 @@ function showQuestion() {
                 class="flower-input"
                 type="text"
                 placeholder="TERCERA FLOR"
+                oninput="formatWhileTyping(this)"
             >
 
 
@@ -444,9 +464,9 @@ function showQuestion() {
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        PREGUNTA 6
-       ----------------------------------------------------- */
+       ===================================================== */
 
     if (currentQuestion === 5) {
 
@@ -461,9 +481,9 @@ function showQuestion() {
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        PREGUNTA 7
-       ----------------------------------------------------- */
+       ===================================================== */
 
     if (currentQuestion === 6) {
 
@@ -488,6 +508,7 @@ function showQuestion() {
                 class="nickname-input"
                 type="text"
                 placeholder="PRIMERA PALABRA"
+                oninput="formatWhileTyping(this)"
             >
 
 
@@ -496,6 +517,7 @@ function showQuestion() {
                 class="nickname-input"
                 type="text"
                 placeholder="SEGUNDA PALABRA"
+                oninput="formatWhileTyping(this)"
             >
 
 
@@ -504,6 +526,7 @@ function showQuestion() {
                 class="nickname-input"
                 type="text"
                 placeholder="TERCERA PALABRA"
+                oninput="formatWhileTyping(this)"
             >
 
 
@@ -523,9 +546,9 @@ function showQuestion() {
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        PREGUNTA 8
-       ----------------------------------------------------- */
+       ===================================================== */
 
     if (currentQuestion === 7) {
 
@@ -543,7 +566,7 @@ function showQuestion() {
 
 
 /* =========================================================
-   PREGUNTAS DE TEXTO
+   CREAR PREGUNTA DE TEXTO
    ========================================================= */
 
 function textQuestion(
@@ -579,6 +602,7 @@ function textQuestion(
             class="text-input"
             type="text"
             placeholder="ESCRIBE TU RESPUESTA"
+            oninput="formatWhileTyping(this)"
         >
 
 
@@ -595,6 +619,7 @@ function textQuestion(
         ></div>
 
     `;
+
 }
 
 
@@ -613,7 +638,9 @@ function checkTextAnswer(validAnswers) {
 
 
     const normalizedValidAnswers =
-        validAnswers.map(answer => normalize(answer));
+        validAnswers.map(
+            answer => normalize(answer)
+        );
 
 
     const message =
@@ -623,6 +650,31 @@ function checkTextAnswer(validAnswers) {
     if (
         normalizedValidAnswers.includes(answer)
     ) {
+
+        /* =================================================
+           SI ES LA PREGUNTA 8, MOSTRAR FINAL
+           ================================================= */
+
+        if (currentQuestion === 7) {
+
+            message.textContent =
+                "✅ ¡Correcto!";
+
+
+            setTimeout(() => {
+
+                showFinal();
+
+            }, 700);
+
+
+            return;
+        }
+
+
+        /* =================================================
+           SI NO ES LA PREGUNTA 8, CONTINUAR
+           ================================================= */
 
         message.textContent =
             "✅ ¡Correcto!";
@@ -648,7 +700,7 @@ function checkTextAnswer(validAnswers) {
 
 
 /* =========================================================
-   PREGUNTA 1 — FECHA
+   COMPROBAR FECHA
    ========================================================= */
 
 function checkDate() {
@@ -703,7 +755,7 @@ function checkDate() {
 
 
 /* =========================================================
-   PREGUNTA 5 — FLORES
+   COMPROBAR FLORES
    ========================================================= */
 
 function checkFlowers() {
@@ -724,8 +776,6 @@ function checkFlowers() {
 
     ];
 
-
-    /* Ahora hay CINCO flores válidas */
 
     const validFlowers = [
 
@@ -782,7 +832,7 @@ function checkFlowers() {
 
 
 /* =========================================================
-   PREGUNTA 7 — FORMAS CARIÑOSAS
+   COMPROBAR FORMAS CARIÑOSAS
    ========================================================= */
 
 function checkNicknames() {
@@ -871,27 +921,27 @@ function showFinal() {
 
     document.getElementById("game").innerHTML = `
 
-        <div class="heart">
+        <div class="final-heart">
             ❤️
         </div>
 
+        <div class="final">
 
-        <h1>
-            ¡Lo lograste!
-        </h1>
+            <div>
+                Lo lograste
+            </div>
 
+            <div>
+                Has respondido correctamente las ocho preguntas
+            </div>
 
-        <p class="final">
+            <br>
 
-            Has respondido correctamente
-            las ocho preguntas.
+            <div>
+                Te amo y siempre te voy a amar, quiero todo contigo
+            </div>
 
-            <br><br>
-
-            Te amo y siempre te voy a amar.
-            Quiero todo contigo.
-
-        </p>
+        </div>
 
     `;
 
@@ -899,7 +949,7 @@ function showFinal() {
 
 
 /* =========================================================
-   INICIAR JUEGO
+   INICIAR
    ========================================================= */
 
 showQuestion();
